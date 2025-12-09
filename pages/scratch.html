@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>My Work</title>
+  <!-- No Bootstrap here -->
+  <link rel="stylesheet" href="../styles/scratch.css" />
+</head>
+<body>
+
+<a id="top"></a>
+
+<header class="site-header">
+  <nav class="topnav">
+    <a href="../index.html">← Back to Home</a>
+    <a href="#video">YouTube</a>
+    <a href="#tableau">Tableau</a>
+    <a href="app.html">Mini App</a>
+  </nav>
+  <h1 class="page-title">Fly Fishing: For Starters</h1>
+</header>
+
+<!-- 3-image hero row (like the example layout) -->
+<section class="image-row">
+  <img src="C:\Users\kaded\OneDrive\Desktop\webdev final\images\10-Tips-to-be-a-Better-Fly-Fisher-The-Fly-Fishing-Basics.jpg" alt="Casting on the river">
+  <img src="C:\Users\kaded\OneDrive\Desktop\webdev final\images\4-GuideNymphs-LS-2020.jpg" alt="Fly box closeup">
+  <img src="C:\Users\kaded\OneDrive\Desktop\webdev final\images\IMGP0738.jpg" alt="Trout release">
+</section>
+
+<main class="content">
+  <!-- Panel 1 -->
+  <section class="panel">
+    <h2>What is it?</h2>
+    <p>Fly fishing is a method of fishing that uses a lightweight artificial fly to imitate insects, baitfish, or other natural food that fish eat. Instead of relying on the weight of the lure, anglers use the momentum of a specially weighted line to cast the fly across the water. It’s a skillful and peaceful style of fishing that blends technique, observation, and timing to connect with fish in rivers, lakes, and streams. Here's why I love it:</p>
+    <ul>
+      <li>I love the challenge of reading water, matching hatches, and learning the habits of fish.</li>
+      <li>Every trip feels like an adventure and a chance to explore new rivers and beautiful places.</li>
+      <li>It helps me slow down, stay present, and appreciate nature.</li>
+    </ul>
+    <p class="back"><a href="#top">Back to top ↑</a></p>
+  </section>
+
+  <!-- Panel 2 (nested list requirement) -->
+  <section class="panel" id="gear">
+    <h2>Starter Kit</h2>
+    <ol>
+      <li>Rod & Reel
+        <ul>
+          <li>5-weight rod</li>
+          <li>Floating line</li>
+          <li>9' leader + tippet</li>
+        </ul>
+      </li>
+      <li>Flies
+        <ul>
+          <li>Parachute Adams</li>
+          <li>Elk Hair Caddis</li>
+          <li>Beadhead Pheasant Tail</li>
+        </ul>
+      </li>
+      <li>On-Stream Tools
+        <ul>
+          <li>Nippers & forceps</li>
+          <li>Floatant</li>
+          <li>Net</li>
+        </ul>
+      </li>
+    </ol>
+    <p class="back"><a href="#top">Back to top ↑</a></p>
+  </section>
+
+    <!-- Panel 3 (YouTube embed) -->
+  <section class="panel" id="video">
+    <h2>Fly Fishing on Film</h2>
+    <div class="video-wrap">
+      <!-- Use the EMBED domain + only the video ID -->
+      <iframe
+        src="https://www.youtube.com/embed/QJDjMIdMyLw"
+        title="Fly fishing video"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen>
+      </iframe>
+    </div>
+    <p class="back"><a href="#top">Back to top ↑</a></p>
+  </section>
+
+  <!-- Panel 4 (Tableau embed) -->
+  <section class="panel" id="tableau">
+    <h2>Interactive Tableau</h2>
+    <p>Live viz from Tableau Public — hover and filter to explore.</p>
+
+    <!-- Replace WORKBOOK/VIEW with your Tableau Public path (Share → Embed Code) -->
+    <div class="tableauPlaceholder" id="viz1" style="position:relative">
+      <noscript><a href="#">View on Tableau Public</a></noscript>
+      <object class="tableauViz" style="display:none;">
+        <param name="host_url" value="https://public.tableau.com/" />
+        <param name="embed_code_version" value="3" />
+        <param name="name" value="WORKBOOK/VIEW" />
+        <param name="tabs" value="no" />
+        <param name="toolbssar" value="yes" />
+      </object>
+    </div>
+    <script>
+      const container = document.getElementById('viz1');
+      const vizObj = container.getElementsByTagName('object')[0];
+      vizObj.style.width = '100%';
+      vizObj.style.height = '800px';
+      const s = document.createElement('script');
+      s.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
+      vizObj.parentNode.insertBefore(s, vizObj);
+    </script>
+
+    <p class="back"><a href="#top">Back to top ↑</a></p>
+  </section>
+
+  <!-- Panel 5 (Mini app link) -->
+  <section class="panel">
+    <h2>Mini App</h2>
+    <p>Built with AI collaboration — a quick **Deal Snippet** that calculates Cap Rate, Cash-on-Cash, and DSCR.</p>
+    <p><a class="btn" href="app.html">Open the Mini App →</a></p>
+  </section>
+</main>
+
+<footer class="footer">
+  <a href="../index.html">Back to Home</a>
+</footer>
+
+</body>
+</html>

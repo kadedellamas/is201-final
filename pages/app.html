@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Deal Snippet — Mini App</title>
+<style>
+  body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin:0; background:#fafafa; color:#111; }
+  .wrap { max-width: 900px; margin: 2rem auto; padding: 1.25rem; background:#fff; border:1px solid #e5e7eb; border-radius:14px; box-shadow:0 10px 30px rgba(0,0,0,.06); }
+  h1 { margin-top:0 }
+  .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: .85rem; }
+  label { font-size:.9rem; color:#374151; }
+  input { width:100%; padding:.6rem .65rem; border:1px solid #d1d5db; border-radius:10px; }
+  .results { margin-top:1rem; background:#f8fafc; border:1px solid #e5e7eb; border-radius:12px; padding:1rem; }
+  .btns { display:flex; gap:.6rem; margin-top: .75rem; }
+  button { padding:.6rem .9rem; border-radius:10px; border:1px solid #d1d5db; background:#fff; cursor:pointer; }
+  button:hover { background:#f3f4f6; }
+  a { color:#0b57d0; text-decoration:none }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Deal Snippet — Cap Rate, CoC, DSCR</h1>
+  <p>Enter a few numbers and get quick metrics. <a href="scratch.html">← Back to Scratch Page</a></p>
+
+  <div class="grid">
+    <div>
+      <label>Purchase Price ($)</label>
+      <input id="price" type="number" value="500000" min="0">
+    </div>
+    <div>
+      <label>NOI — Annual ($)</label>
+      <input id="noi" type="number" value="40000" min="0">
+    </div>
+    <div>
+      <label>Down Payment ($)</label>
+      <input id="down" type="number" value="150000" min="0">
+    </div>
+    <div>
+      <label>Loan Amount ($)</label>
+      <input id="loan" type="number" value="350000" min="0">
+    </div>
+    <div>
+      <label>Interest Rate (% APR)</label>
+      <input id="rate" type="number" step="0.01" value="6.5" min="0">
+    </div>
+    <div>
+      <label>Amortization (years)</label>
+      <input id="amort" type="number" value="30" min="1">
+    </div>
+    <div>
+      <label>Annual Before-Debt Cash Flow ($)</label>
+      <input id="beforeDebtCF" type="number" value="40000" min="0">
+    </div>
+  </div>
+
+  <div class="btns">
+    <button id="calc">Calculate</button>
+    <button id="reset">Reset</button>
+  </div>
+
+  <div class="results" id="out">
+    <strong>Results will appear here.</strong>
+  </div>
+</div>
+
+<script>
+function pmt(rate, nper, pv) {
+  // monthly payment for fixed-rate amortizing loan (interest-only portion included)
+  if (rate === 0) return -(pv / nper);
+  const r = rate;
+  return -(pv * r) / (1 - Math.pow(1 + r, -nper));
+}
+
+function fmt(n, pct=false) {
+  if (pct) return (n*100).toFixed(2) + '%';
+  return n.toLocaleString(undefined, {maximumFractionDigits: 0});
+}
+
+function calc() {
+  const price = +document.getElementById('price').value || 0;
+  const noi = +document.getElementById('noi').value || 0;                 // annual
+  const down = +document.getElementById('down').value || 0;
+  const loan = +document.getElementById('loan').value || 0;
+  const rate = (+document.getElementById('rate').value || 0) / 100;
+  const amort = +document.getElementById('amort').value || 30;
+  const beforeDebtCF = +document.getElementById('beforeDebtCF').value || 0;
+
+  const capRate = price ? noi / price : 0;
+
+  // Monthly debt service
+  const mRate = rate / 12;
+  const nper = amort * 12;
+  const monthlyPI = pmt(mRate, nper, loan); // negative by formula
+  const annualDebtService = Math.abs(monthlyPI) * 12;
+
+  // Cash-on-cash: (Annual CF after debt) / (Cash invested)
+  const cashInvested = down; // simple case
+  const afterDebtCF = beforeDebtCF - annualDebtService;
+  const coc = cashInvested ? (afterDebtCF / cashInvested) : 0;
+
+  // DSCR = NOI / Annual Debt Service
+  const dscr = annualDebtService ? (noi / annualDebtService) : 0;
+
+  document.getElementById('out').innerHTML = `
+    <div><strong>Cap Rate:</strong> ${fmt(capRate, true)}</div>
+    <div><strong>Annual Debt Service (P&I):</strong> $${fmt(annualDebtService)}</div>
+    <div><strong>Cash-on-Cash Return:</strong> ${fmt(coc, true)}</div>
+    <div><strong>DSCR:</strong> ${dscr.toFixed(2)}</div>
+    <div style="margin-top:.35rem;color:#555">Assumes fixed-rate fully amortizing loan; taxes/insurance not included.</div>
+  `;
+}
+
+document.getElementById('calc').addEventListener('click', calc);
+document.getElementById('reset').addEventListener('click', () => {
+  document.querySelectorAll('input').forEach(i => i.value = i.defaultValue);
+  document.getElementById('out').innerHTML = '<strong>Results will appear here.</strong>';
+});
+calc();
+</script>
+</body>
+</html>
